@@ -5,9 +5,14 @@ export DISPLAY=:0
 sudo apt update
 sudo DEBIAN_FRONTEND=noninteractive apt upgrade -yq
 
-aws configure set profile.robomaker_workshop.role_arn arn:aws:iam::517502204741:role/ResourcesForRoboticsWorkshop
-aws configure set profile.robomaker_workshop.source_profile default
-aws configure set profile.robomaker_workshop.region eu-central-1
+########################################################################################
+#------------------------------------ Begin setup -------------------------------------#
+########################################################################################
+
+
+########################################################################################
+#------------------------------------- End setup --------------------------------------#
+########################################################################################
 
 mkdir -p ~/environment/aws_ws/src/
 cd ~/environment/aws_ws/src/

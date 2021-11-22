@@ -65,7 +65,7 @@ def snap_image():
 		rospy.ServiceProxy(SNAP_SRV, Empty)()
 		rospy.sleep(1)
 		[os.remove(ini) for ini in glob.glob("*.ini")]
-		return sorted(glob.glob("*.png"))[-1]
+		return sorted(glob.glob("*.png"))
 	except rospy.ServiceException as e:
 		rospy.logerr("Service call failed: %s"%e)
 		return None
@@ -160,47 +160,3 @@ def upload_image(image_name, s3_bucket, s3_path):
 		return True
 	except:
 		return False
-		
-		
-# Retrieve latest ~1s clip from KVS
-def retrieve_kvs_clip(stream_name):
-	kvs = boto3.client("kinesisvideo")
-	endpoint = kvs.get_data_endpoint(
-		StreamName=stream_name,
-		APIName='GET_CLIP')['DataEndpoint']
-	video_name = str(uuid.uuid4()).split('-')[0] + ".mp4"
-
-	# For Linux
-	start = "$(date -d \"5 seconds ago\" -u \"+%FT%T+0000\")"
-	end = "$(date -u \"+%FT%T+0000\")"
-
-	# For macOS
-	# start = "$(date -v -5S -u \"+%FT%T+0000\")"
-	# end = "$(date -u \"+%FT%T+0000\")"
-
-	# Python API call fails but bash command works
-	command = "aws kinesis-video-archived-media get-clip --endpoint-url " + endpoint + \
-	" --stream-name px100Stream --clip-fragment-selector \"FragmentSelectorType=SERVER_TIMESTAMP,\
-	TimestampRange={StartTimestamp=" + start + ",EndTimestamp=" + end + "}\" " + video_name + " >/dev/null"
-
-	if os.system(command) == 0:
-		return video_name
-	else:
-		return None
-
-
-# Extract first frame of clip
-def extract_frame(video_name):
-	# Open video in openCV
-	video = cv2.VideoCapture(video_name)
-	# num_frames = video.get(cv2.CAP_PROP_FRAME_COUNT);
-	# video.set(cv2.CAP_PROP_POS_FRAMES, num_frames);
-	success,image = video.read()
-	image_name = video_name.split(".")[0] + ".png"
-
-	if success:
-		# Save clip as image file
-		cv2.imwrite(image_name, image)
-		return image_name
-	else:
-		return None
