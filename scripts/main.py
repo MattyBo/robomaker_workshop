@@ -8,15 +8,20 @@ from px100 import PX100
 import utilities as util
 
 
-SIM_MODEL_ARN     = ""
-REAL_MODEL_ARN    = ""
 IMAGE_NAME        = "/home/ubuntu/environment/aws_ws/src/robomaker_workshop/images/image_cap.png"
 ACCESS_PROFILE    = "robomaker_workshop"
 
 ########################################################################################
-#------------------------------- Configurable variable --------------------------------#
+#---------------------------- Start configurable variables -----------------------------#
 ########################################################################################
+
+SIM_MODEL_ARN     = ""
+REAL_MODEL_ARN    = ""
 CONFIDENCE_THRESHOLD = 85
+
+########################################################################################
+#---------------------------- End configurable variables ------------------------------#
+########################################################################################
 
 
 def main():

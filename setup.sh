@@ -16,7 +16,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt upgrade -yq
 
 mkdir -p ~/environment/aws_ws/src/
 cd ~/environment/aws_ws/src/
-git clone https://github.com/adi3/robomaker_workshop
+git clone https://github.com/MattyBo/robomaker_workshop
 
 cd ~/environment/aws_ws
 rosdep update
